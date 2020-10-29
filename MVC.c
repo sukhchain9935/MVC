@@ -1,5 +1,11 @@
 #include <stdbool.h>
 
+void init();
+int btn_view();
+void btn_model(int clicked);
+void btn_controller(int clicked);
+int display_element();
+
 typedef struct
 {
     int x1, x2;
@@ -8,42 +14,43 @@ typedef struct
     int color;
 
     void (*model)(int); 
-    void (*view)(int); 
+    int (*view)(); 
     void (*controller)(int); 
 } Button;
 Button button;
 
-view();
-model();
-controller();
-
-init() {
-    button.model = &model;
-    button.view = &view;
-    button.controller = &controller;
+void init() {
+    button.model = &btn_model;
+    button.view = &btn_view;
+    button.controller = &btn_controller;
 }
 
-view() 
+int btn_view() 
 {
-    display_element();
+    return display_element();
 }
 
-model(int clicked)
+void btn_model(int clicked)
 {
     if (clicked == 1)
     {
         button.click = true;
-        button.color = "secondary";
+        button.color = 1; // Secondary;
     } else {
         button.click = false;
-        button.color = "primary";
+        button.color = 0; // Primary;
     }
 }
 
-controller(int clicked)
+void btn_controller(int clicked)
 {
     if (clicked)
     {
-        model(clicked);
+        btn_model(clicked);
     }
+}
+
+int display_element()
+{
+    return 1;
 }
